@@ -28,7 +28,7 @@ $$ {#eq-secondorder}
 
 You can then easily reference this equation in your text by typing `@eq-secondorder`, which will automatically render as a clickable link (e.g., @eq-secondorder).
 
-# Text Formatting & Lists
+# Text Formatting and Lists
 
 You can make text *italic* or **bold** by enclosing it in single `*` or double `**` asterisks, respectively. 
 
