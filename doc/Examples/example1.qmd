@@ -4,7 +4,7 @@ title: "How to write a page"
 
 ## This is a section
 
-With some text
+With some text inside the section
 
 ### This is a subsection
 

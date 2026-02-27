@@ -22,4 +22,5 @@ format:
     theme: cosmo
     math: mathjax
     include-in-header: 
+      - include/css-config.html
       - include/mathjax-config.html
