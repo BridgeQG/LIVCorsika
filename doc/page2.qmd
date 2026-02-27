@@ -1,5 +1,0 @@
----
-title: "Quantum Field Theory"
----
-
-This is other section. Many wonderful words.
