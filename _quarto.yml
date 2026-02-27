@@ -20,7 +20,6 @@ csl: bib/journal-of-cosmology-and-astroparticle-physics.csl
 format:
   html:
     theme: cosmo
-    css: include/css-config.css
     math: mathjax
-    include-in-header: 
-      - include/mathjax-config.html
+    css: include/css-config.css
+    

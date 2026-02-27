@@ -1,6 +1,8 @@
 ---
-title: "Friedmann equations"
+title: "Lambda-CDM Cosmological Model"
 ---
+
+\section{Field equations}
 
 In order to describe an homogeneous and isotropic universe like in the framework of GR, one should solve the Einstein field equations using a homogeneous, isotropic, and expanding metric (the FLRW metric),
 \begin{equation}
@@ -14,9 +16,11 @@ where $k$ is the curvature and $a(t)$ the scale factor of the universe, which is
 \end{equation}
 where we have defined the Hubble parameter as $H=\dot a/a$.
 
+\section{Friedman equations}
+
 Using the FLRW metric, Eq. \eqref{eq:FLRW}, to solve the Einstein equations leads to the Friedmann equations, which are the basis of the standard cosmology. The first Friedmann equation can be written in terms of the cosmic density of radiation ($\Omega_r$), matter ($\Omega_m$), curvature ($\Omega_k$), and dark energy ($\Omega_\Lambda$),
 \begin{equation}
     H(z) = H_0 \sqrt{\Omega_r (1+z)^4 + \Omega_m (1+z)^3 + \Omega_k (1+z)^2 + \Omega_\Lambda} \,.
     \label{eq:Hz_full}
 \end{equation}
-The model does not predict the values of these cosmic densities, so they should be adjusted using cosmological observations and measurements. For more information see [@ReyesHung:2023udr]
+The model does not predict the values of these cosmic densities, so they should be adjusted using cosmological observations and measurements. For more information see \cite{ReyesHung:2023udr}

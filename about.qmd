@@ -1,5 +1,9 @@
 ---
-title: "About"
+title: "About us"
 ---
 
-About
+COST Action 23130 BridgeQG
+
+# Site information
+
+- Site generated with [Github Pages](https://pages.github.com).
