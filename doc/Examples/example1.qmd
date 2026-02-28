@@ -14,31 +14,31 @@ Section names are created by adding one or more `#` symbols followed by a space.
 
 # Mathematical Equations
 
-You can write inline equations, such as $x^2+y^2=r^2$, by enclosing the formula in single `$` symbols. To write a standalone (unnumbered) equation on its own line, enclose it in double `$$` symbols:
+Inline equations, such as $x^2+y^2=r^2$, can be written by enclosing the formula in single `$` symbols. To write a standalone (unnumbered) equation on its own line, it should be enclosed in double `$$` symbols:
 
 $$
   x=\frac{-b\pm \sqrt{b^2-4ac}}{2a} \,,
 $$
 
-If you want to create a labeled equation that you can reference later, simply append `{#eq-yourlabel}` to the closing `$$`:
+To create a labeled equation that can be referenced later, `{#eq-yourlabel}` is simply appended to the closing `$$`:
 
 $$
   x=\frac{-b\pm \sqrt{b^2-4ac}}{2a} \,,
 $$ {#eq-secondorder}
 
-You can then easily reference this equation in your text by typing `@eq-secondorder`, which will automatically render as a clickable link (e.g., @eq-secondorder).
+This equation can then be easily referenced in the text by typing `@eq-secondorder`, which will automatically render as a clickable link (e.g., @eq-secondorder).
 
 # Text Formatting and Lists
 
-You can make text *italic* or **bold** by enclosing it in single `*` or double `**` asterisks, respectively. 
+Text can be made *italic* or **bold** by enclosing it in single `*` or double `**` asterisks, respectively. 
 
-Create an unordered list using the `-` symbol. The level of indentation determines the hierarchy of the list:
+An unordered list is created using the `-` symbol. The level of indentation determines the hierarchy of the list:
 
 - Level 1 item
   - Level 2 item
     - Level 3 item
 
-For ordered lists, use numbers. You can actually just write `1.` for every item, and it will be automatically ordered correctly when the page renders:
+For ordered lists, numbers are used. Writing `1.` for every item is sufficient, as it will be automatically ordered correctly when the page renders:
 
 1. First element
 1. Second element
@@ -74,10 +74,10 @@ To emphasize a quote or important note, use the `>` symbol at the start of the l
 
 > "If it is on the internet... it must be true." - Abraham Lincoln
 
-Quarto Markdown also includes special Callout Blocks to draw attention to notes, warnings, or tips. You create them by opening and closing a block with three colons `:::` and specifying the type, like `:::{.callout-note}`:
+Quarto Markdown also includes special Callout Blocks to draw attention to notes, warnings, or tips. They are created by opening and closing a block with three colons `:::` and specifying the type, like `:::{.callout-note}`:
 
 :::{.callout-note}
-This is a helpful note! You can also use `.callout-warning`, `.callout-tip`, `.callout-caution`, or `.callout-important` to change the color and icon of the box.
+This is a helpful note! The options `.callout-warning`, `.callout-tip`, `.callout-caution`, or `.callout-important` can also be used to change the color and icon of the box.
 :::
 
 # Code Snippets

@@ -131,10 +131,10 @@ def convert_latex_to_quarto(text):
 
 if __name__ == "__main__":
 
-    files_to_process = glob.glob("doc/**/*.tex", recursive=True)
+    files_to_process = glob.glob("doc/**/*.qtex", recursive=True)
 
     if not files_to_process:
-        print("No .tex files found in the 'doc/' folder to process.")
+        print("No .qtex files found in the 'doc/' folder to process.")
         sys.exit(0)
 
     for filepath in files_to_process:
