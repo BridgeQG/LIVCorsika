@@ -140,6 +140,8 @@ if __name__ == "__main__":
     for filepath in files_to_process:
         with open(filepath, 'r', encoding='utf-8') as f:
             content = f.read()
+            
+        converted_content = convert_latex_to_quarto(content)
         
         qmd_filepath = os.path.splitext(filepath)[0] + ".qmd"
         
