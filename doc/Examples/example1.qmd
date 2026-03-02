@@ -6,21 +6,17 @@ GitHub Pages transforms plain text files into HTML webpages. In this template, f
 
 # Sections and Subsections
 
-Section headers are created by adding one or more `#` symbols followed by a space. Typing a single `#` creates a main section header. Adding more symbols creates deeper hierarchies; for example, typing `## This is a subsection` generates a secondary heading:
+Section headers are created by adding one or more `#` symbols followed by a space. Typing a single `#` creates a main section header. Adding more symbols creates deeper hierarchies; for example, typing `## This is a subsection` generates a secondary heading. Similarly, using three symbols like `### This is a sub-subsection` produces a tertiary heading.
 
 ## This is a subsection
-
-Similarly, using three symbols like `### This is a sub-subsection` produces a tertiary heading:
 
 ### This is a sub-subsection
 
 # Mathematical Equations
 
-Inline equations, such as $x^2+y^2=r^2$, are written by enclosing the formula in single `$` symbols directly within the text. 
+Inline equations, such as $x^2+y^2=r^2$, are written by enclosing the formula in single `$` symbols directly within the text. To write a standalone equation on its own line, enclose the formula in double `$$` symbols. To make the equation cross-referenceable, append an identifier starting with `#eq-` to the closing `$$`:
 
-To write a standalone equation on its own line, enclose the formula in double `$$` symbols. To make the equation cross-referenceable, append an identifier starting with `#eq-` to the closing `$$`:
-
-```text
+```latex
 $$
   x=\frac{-b\pm \sqrt{b^2-4ac}}{2a} \,,
 $$ {#eq-secondorder}
@@ -32,9 +28,9 @@ $$
   x=\frac{-b\pm \sqrt{b^2-4ac}}{2a} \,,
 $$ {#eq-secondorder}
 
-This equation can then be referenced in the text using `@eq-secondorder`, which automatically renders a clickable link with the appropriate prefix, such as Equation 1. 
+This equation can then be referenced in the text using `@eq-secondorder`, which automatically renders a clickable link with the appropriate prefix, such as @eq-secondorder. 
 
-If the automatic prefix needs to be suppressed, place the reference inside square brackets with a minus sign and wrap it in parentheses. For instance, typing `Eq. ([-@eq-secondorder])` will suppress the word "Equation" and render just the number in-between parentheses, resulting in Eq. (1).
+If the automatic prefix needs to be suppressed, place the reference inside square brackets with a minus sign and wrap it in parentheses. For instance, typing `Eq. (-@eq-secondorder)` will suppress the word "Equation" and render just the number in-between parentheses, resulting in (-@eq-secondorder).
 
 # Text Formatting and Lists
 
@@ -42,7 +38,7 @@ Text formatting is achieved by enclosing words in asterisks. Using single asteri
 
 Unordered lists are created using the `-` symbol, where the level of indentation determines the hierarchy of the items:
 
-```text
+```markdown
 - Level 1 item
   - Level 2 item
     - Level 3 item
@@ -56,7 +52,7 @@ This syntax generates the following bulleted list:
 
 Ordered lists use numbers instead of dashes. Typing `1.` for every item is sufficient, as the list will automatically number itself correctly upon rendering:
 
-```text
+```markdown
 1. First element
 1. Second element
 1. Third element
@@ -72,11 +68,11 @@ The compiled list appears as:
 
 To insert an image, provide a caption inside square brackets and the file path inside parentheses. A label and display attributes, such as width, can be appended in curly braces:
 
-```text
+```markdown
 ![Default frog picture.](/img/Examples/frog.jpg){#fig-frog width="4cm"}
 ```
 
-This places the image in the document, allowing it to be referenced anywhere in the text using `@fig-frog`:
+This places the image in the document, allowing it to be referenced anywhere in the text using `@fig-frog` (e.g. @fig-frog):
 
 ![Default frog picture.](/img/Examples/frog.jpg){#fig-frog width="4cm"}
 
@@ -90,7 +86,7 @@ Tables are constructed using vertical pipes (`|`) to separate columns and hyphen
 : Table caption {#tbl-example}
 ```
 
-The resulting formatted table can then be referenced using `@tbl-example`:
+The resulting formatted table can then be referenced using `@tbl-example` (e.g., @tbl-example):
 
 | Column 1 | Column 2 | Column 3 |
 |:---------|:---------|:---------|
@@ -102,7 +98,7 @@ The resulting formatted table can then be referenced using `@tbl-example`:
 
 To emphasize a quote, start the line with a `>` symbol:
 
-```text
+```markdown
 > "If it is on the internet... it must be true."
 > - Abraham Lincoln
 ```
@@ -114,7 +110,7 @@ The text is then visually set apart as a blockquote:
 
 Quarto Markdown also features Callout Blocks to draw attention to notes, warnings, or tips. These are created by wrapping the text in three colons (`:::`) and specifying the desired callout type:
 
-```text
+```markdown
 :::{.callout-note}
 This is a helpful note! The options `.callout-warning`, `.callout-tip`, `.callout-caution`, and `.callout-important` change the color and icon of the box.
 :::
@@ -130,7 +126,7 @@ This is a helpful note! The options `.callout-warning`, `.callout-tip`, `.callou
 
 Short, inline code within a sentence is formatted by enclosing the text in single backticks (`` ` ``). For multi-line code blocks with syntax highlighting, enclose the block in triple backticks and specify the programming language on the first line:
 
-````text
+````markdown
 ```cpp
 float sum (float a, float b) {
   return a + b;
@@ -146,24 +142,22 @@ float sum (float a, float b) {
 }
 ```
 
-# Links, Citations, and Footnotes
+# Links, Footnotes and Citations
 
 Hyperlinks are created by placing the link text in square brackets followed by the URL in parentheses. For example, typing `[GitHub Repository](https://github.com/MKReyesH/ScientificWiki)` renders as a clickable link: [GitHub Repository](https://github.com/MKReyesH/ScientificWiki).
 
 Internal links to a specific section on the same page follow the exact same syntax, replacing the URL with the section's heading. The heading must be written in lowercase, using hyphens instead of spaces, and prefixed with a `#`. For example, `[first section](#sections-and-subsections)` creates a link that navigates back to the [first section](#sections-and-subsections).
 
-To cite references from a bibliography file, place the `@` symbol and the citation key inside square brackets. Typing `[@ReyesHung:2023udr]` produces a formatted citation in the text. Multiple citations within the same brackets are separated by semicolons, and a reference list is automatically appended to the end of the document.
-
 Footnotes are added using a caret and an identifier inside square brackets. The actual content of the footnote is defined anywhere else in the document by matching the identifier, followed by a colon and the text:
 
-```text
+```markdown
 This is a sentence with a footnote[^1].
 
 [^1]: This is the text of the footnote.
 ```
 
-When rendered, a superscript number is inserted into the text, and the note is placed at the bottom of the page:
+When rendered, a superscript number is inserted into the text, and the note is placed at the bottom of the page[^1].
 
-This is a sentence with a footnote[^1].
+[^1]: For example, this is a footnote.
 
-[^1]: This is the text of the footnote.
+To cite references from a bibliography file, place the `@` symbol and the citation key inside square brackets. Typing `[@ReyesHung:2023udr]` produces a formatted citation in the text. Multiple citations within the same brackets are separated by semicolons, and a reference list is automatically appended to the end of the document (e.g, [@ReyesHung:2023udr]).
