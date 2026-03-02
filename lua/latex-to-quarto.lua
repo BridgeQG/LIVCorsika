@@ -69,7 +69,7 @@ local function translate_to_quarto(text)
   local cite = text:match("^\\cite{([^}]+)}")
   if cite then return "[@" .. cite:gsub("%s+", ""):gsub(",", "; @") .. "]", "markdown" end
 
-  -- 4. Sections (Adding newlines ensures Pandoc recognizes them as block elements if injected)
+  -- 4. Sections
   local sec = text:match("^\\section{([^}]+)}")
   if sec then return "\n# " .. sec .. "\n", "markdown" end
   
@@ -80,7 +80,6 @@ local function translate_to_quarto(text)
   if subsubsec then return "\n### " .. subsubsec .. "\n", "markdown" end
 
   -- 5. THE CATCH-ALL FALLBACK (Tables, unsupported macros, text formatting)
-  -- Standardize the label but leave everything else untouched as native LaTeX
   local clean_text = text:gsub("\\label{([^}]+)}", function(lbl)
     return "\\label{" .. normalize_label(lbl) .. "}"
   end)
@@ -89,21 +88,36 @@ end
 
 
 -- =====================================================================
--- THE DELIVERY DRIVERS: Inject raw code correctly into the AST
+-- THE DELIVERY DRIVERS: Inject parsed code correctly into the AST
 -- =====================================================================
 
 function RawInline(el)
   if el.format == "tex" or el.format == "latex" then
     local converted_text, format_type = translate_to_quarto(el.text)
-    -- Deliver as an inline element so Pandoc doesn't crash on paragraph traversal
-    return pandoc.RawInline(format_type, converted_text)
+    
+    if format_type == "markdown" then
+      -- Parse the string into AST nodes so HTML doesn't drop it
+      local doc = pandoc.read(converted_text, "markdown")
+      if doc.blocks[1] and doc.blocks[1].content then
+        return doc.blocks[1].content
+      end
+    else
+      -- Fallback: Keep as raw LaTeX
+      return pandoc.RawInline("tex", converted_text)
+    end
   end
 end
 
 function RawBlock(el)
   if el.format == "tex" or el.format == "latex" then
     local converted_text, format_type = translate_to_quarto(el.text)
-    -- Deliver as a block element
-    return pandoc.RawBlock(format_type, converted_text)
+    
+    if format_type == "markdown" then
+      -- Parse the string into AST nodes so HTML doesn't drop it
+      return pandoc.read(converted_text, "markdown").blocks
+    else
+      -- Fallback: Keep as raw LaTeX
+      return pandoc.RawBlock("tex", converted_text)
+    end
   end
 end
