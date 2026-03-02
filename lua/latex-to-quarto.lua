@@ -1,24 +1,29 @@
--- Helper: Standardize labels
+-- Helper: Safely standardize labels (Handles tab/table prefixes)
 local function normalize_label(lbl)
   if not lbl then return "" end
   return lbl:gsub(":", "-"):gsub("^tab%-", "tbl-"):gsub("^table%-", "tbl-")
 end
 
 -- =====================================================================
--- THE UNIVERSAL TRANSLATOR
+-- THE UNIVERSAL TRANSLATOR: Converts LaTeX strings to Quarto strings
 -- =====================================================================
 local function translate_to_quarto(text)
   
   -- 1. Equations
   if text:match("\\begin{equation}") or text:match("\\begin{align}") then
-    -- ... (Equation extraction logic remains exactly the same)
+    local label = text:match("\\label{([^}]+)}")
+    local math = text:gsub("\\begin{equation%*?}", ""):gsub("\\end{equation%*?}", "")
+                     :gsub("\\begin{align%*?}", "\\begin{aligned}"):gsub("\\end{align%*?}", "\\end{aligned}")
+                     :gsub("\\label{[^}]+}", "")
+    math = math:gsub("^%s+", ""):gsub("%s+$", "")
     
     local md = "$$\n" .. math .. "\n$$"
     if label then
+      local q_label = normalize_label(label)
+      if not q_label:match("^eq%-") then q_label = "eq-" .. q_label end
       md = md .. " {#" .. q_label .. "}"
     end
-    -- RETURN AS RAW MARKDOWN BLOCK
-    return pandoc.RawBlock("markdown", md) 
+    return md, "markdown" 
   end
 
   -- 2. Figures
@@ -46,34 +51,59 @@ local function translate_to_quarto(text)
         md = md .. "{#" .. q_label .. " " .. q_args .. "}" 
       end
       
-      -- RETURN AS RAW MARKDOWN BLOCK
-      return pandoc.RawBlock("markdown", md)
+      return md, "markdown"
     end
   end
 
-  -- ... (Rest of the formatting rules) ...
+  -- 3. Cross-References & Citations
+  local eqref = text:match("^\\eqref{([^}]+)}")
+  if eqref then 
+    local q_label = normalize_label(eqref)
+    if not q_label:match("^eq%-") then q_label = "eq-" .. q_label end
+    return "([-@" .. q_label .. "])", "markdown" 
+  end
 
-  -- 5. THE CATCH-ALL FALLBACK (Tables, unsupported macros)
+  local ref = text:match("^\\ref{([^}]+)}")
+  if ref then return "[-@" .. normalize_label(ref) .. "]", "markdown" end
+
+  local cite = text:match("^\\cite{([^}]+)}")
+  if cite then return "[@" .. cite:gsub("%s+", ""):gsub(",", "; @") .. "]", "markdown" end
+
+  -- 4. Sections (Adding newlines ensures Pandoc recognizes them as block elements if injected)
+  local sec = text:match("^\\section{([^}]+)}")
+  if sec then return "\n# " .. sec .. "\n", "markdown" end
+  
+  local subsec = text:match("^\\subsection{([^}]+)}")
+  if subsec then return "\n## " .. subsec .. "\n", "markdown" end
+  
+  local subsubsec = text:match("^\\subsubsection{([^}]+)}")
+  if subsubsec then return "\n### " .. subsubsec .. "\n", "markdown" end
+
+  -- 5. THE CATCH-ALL FALLBACK (Tables, unsupported macros, text formatting)
+  -- Standardize the label but leave everything else untouched as native LaTeX
   local clean_text = text:gsub("\\label{([^}]+)}", function(lbl)
     return "\\label{" .. normalize_label(lbl) .. "}"
   end)
-  -- RETURN AS RAW LATEX BLOCK
-  return pandoc.RawBlock("tex", clean_text)
+  return clean_text, "tex"
 end
 
 
 -- =====================================================================
--- THE DELIVERY DRIVERS: Inject the translated code back into the AST
+-- THE DELIVERY DRIVERS: Inject raw code correctly into the AST
 -- =====================================================================
 
 function RawInline(el)
   if el.format == "tex" or el.format == "latex" then
-    return translate_to_quarto(el.text)
+    local converted_text, format_type = translate_to_quarto(el.text)
+    -- Deliver as an inline element so Pandoc doesn't crash on paragraph traversal
+    return pandoc.RawInline(format_type, converted_text)
   end
 end
 
 function RawBlock(el)
   if el.format == "tex" or el.format == "latex" then
-    return translate_to_quarto(el.text)
+    local converted_text, format_type = translate_to_quarto(el.text)
+    -- Deliver as a block element
+    return pandoc.RawBlock(format_type, converted_text)
   end
 end
