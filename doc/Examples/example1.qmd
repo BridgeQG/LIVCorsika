@@ -26,7 +26,7 @@ $$
   x=\frac{-b\pm \sqrt{b^2-4ac}}{2a} \,,
 $$ {#eq-secondorder}
 
-This equation can then be easily referenced in the text by typing `@eq-secondorder`, which will automatically render as a clickable link (e.g., @eq-secondorder).
+This equation number can then be easily referenced in the text by typing `[-@eq-secondorder]`, which will automatically render as a clickable link (e.g., Eq. [-@eq-secondorder]).
 
 # Text Formatting and Lists
 
