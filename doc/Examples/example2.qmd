@@ -62,7 +62,7 @@ Inserting images in LaTeX usually requires a full figure block. The script is de
   \label{fig:frog}
 \end{figure}
 
-The script will strip away the extra LaTeX wrappers and output `![Default frog picture.](img/Examples/frog.jpg){#fig-frog width="4cm"}`, ensuring images load and cross-reference perfectly in the wiki.
+The script will strip away the extra LaTeX wrappers and output `![Default frog picture.](img/Examples/frog.jpg){#fig-frog width="4cm"}`, ensuring images load and cross-reference perfectly in the wiki \ref{fig:frog}.
 
 \section{Links and Citations}
 
