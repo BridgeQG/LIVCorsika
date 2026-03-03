@@ -1,19 +1,17 @@
 -- =======================================================================
--- 1. CONFIGURATION TABLES
+-- 1. CONFIGURATION TABLES (Add new rules here!)
 -- =======================================================================
 
--- List of inline translation rules. 
+local section_rules = {
+    section = 1,
+    subsection = 2,
+    subsubsection = 3
+}
 
 local inline_rules = {
-  
-    -- Text formatting
     { pattern = "\\textbf{([^}]+)}", replace = "**%1**" },
     { pattern = "\\textit{([^}]+)}", replace = "*%1*" },
-    
-    -- Links
     { pattern = "\\href{([^}]+)}{([^}]+)}", replace = "[%2](%1)" },
-    
-    -- Citations (Handles multiple comma-separated citations)
     { pattern = "\\cite{([^}]+)}", replace = function(cites)
         local cite_str = ""
         for ref in string.gmatch(cites, "[^,%s]+") do
@@ -22,8 +20,6 @@ local inline_rules = {
         end
         return cite_str .. "]"
     end},
-    
-    -- Cross-references (Normalizes prefixes to eq- and sec-)
     { pattern = "\\ref{([^}]+)}", replace = function(ref)
         ref = string.gsub(ref, "^eq:", "eq-")
         ref = string.gsub(ref, "^sec:", "sec-")
@@ -35,110 +31,142 @@ local inline_rules = {
     end}
 }
 
--- =======================================================================
--- 2. HELPER FUNCTIONS
--- =======================================================================
-
--- String trimmer (remove any empty spaces, tabs, or invisible newlines)
-local function trim(s)
-  return s:match("^%s*(.-)%s*$")
-end
-
--- Map LaTeX section commands to Markdown header levels (1 = #, 2 = ##, etc.)
-local section_rules = {
-    section = 1,
-    subsection = 2,
-    subsubsection = 3
+-- THIS IS HOW YOU GENERALIZE ENVIRONMENTS
+-- Key = environment name. Value = function that builds the markdown block.
+local environment_rules = {
+    equation = function(content, label)
+        local md = "$$\n" .. content .. "\n$$"
+        if label then
+            -- Safely normalize Quarto label prefixes
+            local q_label = string.gsub(label, "^eq:", "eq-")
+            if not string.match(q_label, "^eq%-") then q_label = "eq-" .. q_label end
+            md = md .. " {#" .. q_label .. "}"
+        end
+        return md
+    end
+    
+    -- Example for the future: If you wanted to add a quote environment:
+    -- quote = function(content, label)
+    --     return "> " .. string.gsub(content, "\n", "\n> ")
+    -- end
 }
 
--- Extracts the label from INSIDE the math and prepares it for the OUTSIDE
-local function convert_math_label(math_text)
-    local label = string.match(math_text, "\\label{([^}]+)}")
-    if label then
-        local new_math = string.gsub(math_text, "\\label{[^}]+}", "")
-        local qmd_label = string.gsub(label, "^eq:", "eq-")
-        return trim(new_math), qmd_label
-    end
-    return trim(math_text), nil
-end
-
 -- =======================================================================
--- 3. THE PROCESSING ENGINE 
+-- 2. THE TRANSLATOR ENGINE
 -- =======================================================================
 
-function Pandoc(doc)
-    local new_blocks = {}
+local function apply_rules(text)
+    local original_text = text
 
-    for _, block in ipairs(doc.blocks) do
-        if block.t == "Para" or block.t == "Plain" then
-            local current_inlines = {}
+    -- A. Check Environments (Produces a Block)
+    for env_name, env_func in pairs(environment_rules) do
+        -- Matches \begin{env} ... \end{env} (handles optional * like equation*)
+        local env_pattern = "\\begin{" .. env_name .. "%*?}(.-)\\end{" .. env_name .. "%*?}"
+        local content = string.match(text, env_pattern)
+        
+        if content then
+            local label = string.match(content, "\\label{([^}]+)}")
+            if label then
+                content = string.gsub(content, "\\label{[^}]+}", "")
+            end
             
-            local function flush_inlines()
-                if #current_inlines > 0 then
-                    table.insert(new_blocks, pandoc.Para(current_inlines))
-                    current_inlines = {}
-                end
-            end
-
-            for _, inline in ipairs(block.content) do
-                
-                -- A. ENVIRONMENTS / EQUATIONS
-                if inline.t == "Math" and inline.mathtype == "DisplayMath" then
-                    flush_inlines()
-                    local text, label = convert_math_label(inline.text)
-                    local md = label and ("$$\n" .. text .. "\n$$ {#" .. label .. "}") or ("$$\n" .. text .. "\n$$")
-                    table.insert(new_blocks, pandoc.RawBlock("markdown", md))
-                    
-                -- B. INLINE TEX COMMANDS
-                elseif inline.t == "RawInline" and (inline.format == "tex" or inline.format == "latex") then
-                    local text = inline.text
-                    local handled = false
-                    
-                    -- Check if it is a Section header
-                    for cmd, level in pairs(section_rules) do
-                        local match = string.match(text, "\\" .. cmd .. "{([^}]+)}")
-                        if match then
-                            flush_inlines()
-                            table.insert(new_blocks, pandoc.Header(level, {pandoc.Str(match)}))
-                            handled = true
-                            break
-                        end
-                    end
-
-                    -- If not a section, run it through the inline replacement rules
-                    if not handled then
-                        local original_text = text
-                        
-                        for _, rule in ipairs(inline_rules) do
-                            text = string.gsub(text, rule.pattern, rule.replace)
-                        end
-                        
-                        if text ~= original_text then
-                            table.insert(current_inlines, pandoc.RawInline("markdown", text))
-                        else
-                            table.insert(current_inlines, inline)
-                        end
-                    end
-                else
-                    table.insert(current_inlines, inline)
-                end
-            end
-            flush_inlines()
+            content = content:match("^%s*(.-)%s*$") -- clean whitespace
             
-        -- C. FALLBACK FOR RAW BLOCKS
-        elseif block.t == "RawBlock" and (block.format == "tex" or block.format == "latex") then
-            local eq_text = string.match(block.text, "\\begin{equation}(.-)\\end{equation}")
-            if eq_text then
-                local text, label = convert_math_label(eq_text)
-                local md = label and ("$$\n" .. text .. "\n$$ {#" .. label .. "}") or ("$$\n" .. text .. "\n$$")
-                table.insert(new_blocks, pandoc.RawBlock("markdown", md))
-            else
-                table.insert(new_blocks, block)
-            end
-        else
-            table.insert(new_blocks, block)
+            local md = env_func(content, label)
+            return md, "block"
         end
     end
 
-    return pandoc.Pandoc(new_blocks, doc.meta)
+    -- B. Check Sections (Produces a Block)
+    for cmd, level in pairs(section_rules) do
+        local sec_pattern = "\\" .. cmd .. "{([^}]+)}"
+        local title = string.match(text, sec_pattern)
+        if title then
+            local prefix = string.rep("#", level)
+            return "\n" .. prefix .. " " .. title .. "\n", "block"
+        end
+    end
+
+    -- C. Check Inlines (Produces Inline text)
+    for _, rule in ipairs(inline_rules) do
+        text = string.gsub(text, rule.pattern, rule.replace)
+    end
+    
+    if text ~= original_text then
+        return text, "inline"
+    end
+
+    return nil, nil
+end
+
+-- =======================================================================
+-- 3. THE AST WALKER (Paragraph Splitter & AST Compiler)
+-- =======================================================================
+
+function Blocks(blocks)
+    local new_blocks = pandoc.List()
+    
+    for _, block in ipairs(blocks) do
+        -- If it's a Paragraph, we look inside for inline LaTeX that needs block splitting
+        if block.t == "Para" or block.t == "Plain" then
+            local current_inlines = pandoc.List()
+            
+            local function flush_inlines()
+                if #current_inlines > 0 then
+                    new_blocks:insert(pandoc.Para(current_inlines))
+                    current_inlines = pandoc.List()
+                end
+            end
+
+            for _, el in ipairs(block.content) do
+                if el.t == "RawInline" and (el.format == "tex" or el.format == "latex") then
+                    local md, result_type = apply_rules(el.text)
+                    
+                    if result_type == "block" then
+                        -- Environment or Section found inside a paragraph!
+                        flush_inlines() -- Close off the paragraph so far
+                        
+                        -- Re-compile the new block natively via pandoc.read
+                        local doc = pandoc.read(md, "markdown")
+                        for _, b in ipairs(doc.blocks) do
+                            new_blocks:insert(b)
+                        end
+                        
+                    elseif result_type == "inline" then
+                        -- Standard inline replacement
+                        local doc = pandoc.read(md, "markdown")
+                        if doc.blocks[1] and doc.blocks[1].content then
+                            for _, inline_el in ipairs(doc.blocks[1].content) do
+                                current_inlines:insert(inline_el)
+                            end
+                        end
+                    else
+                        -- Not recognized, leave untouched
+                        current_inlines:insert(el)
+                    end
+                else
+                    -- Standard text
+                    current_inlines:insert(el)
+                end
+            end
+            flush_inlines() -- Final close off
+            
+        -- If it's an isolated RawBlock
+        elseif block.t == "RawBlock" and (block.format == "tex" or block.format == "latex") then
+            local md, result_type = apply_rules(block.text)
+            if md then
+                local doc = pandoc.read(md, "markdown")
+                for _, b in ipairs(doc.blocks) do
+                    new_blocks:insert(b)
+                end
+            else
+                new_blocks:insert(block)
+            end
+        else
+            -- Keep any other block (Headers, Tables, etc.) exactly as it is
+            new_blocks:insert(block)
+        end
+    end
+    
+    return new_blocks
 end
