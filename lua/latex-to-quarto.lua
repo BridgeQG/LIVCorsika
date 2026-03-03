@@ -1,7 +1,7 @@
 -- Helper: Safely standardize labels
 local function normalize_label(lbl)
   if not lbl then return "" end
-  return lbl:gsub(":", "-"):gsub("^tab%-", "tbl-")
+  return lbl:gsub(":", "-"):gsub("^tab%-", "tbl-"):gsub("^table%-", "tbl-")
 end
 
 -- =====================================================================
@@ -10,9 +10,10 @@ end
 local function translate_to_quarto(text)
   
   -- 1. Equations
-  if text:match("\\begin{equation}") then
+  if text:match("\\begin{equation}") or text:match("\\begin{align}") then
     local label = text:match("\\label{([^}]+)}")
     local math = text:gsub("\\begin{equation%*?}", ""):gsub("\\end{equation%*?}", "")
+                     :gsub("\\begin{align%*?}", "\\begin{aligned}"):gsub("\\end{align%*?}", "\\end{aligned}")
                      :gsub("\\label{[^}]+}", "")
     math = math:gsub("^%s+", ""):gsub("%s+$", "")
     
