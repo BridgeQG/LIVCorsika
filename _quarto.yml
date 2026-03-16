@@ -9,16 +9,15 @@ website:
         text: "Home"
       - section: "Topics"
         contents:
-        - section: "First level topics"
+        - section: "Examples"
           contents:
-          - auto: "doc/Physics/Folder 1/*.qmd"
-        - section: "Second level topics"
+          - auto: "doc/Examples/*.qmd"
+        - section: "Physics"
           contents:
-          - auto: "doc/Physics/Folder 2/*.qmd"
-#      - auto: "doc/"
-#      - href: https://github.com/MKReyesH/ScientificWiki
-#        text: "GitHub Project"
-#      - href: about.qmd
+          - auto: "doc/Physics/*.qmd"
+      - href: https://github.com/MKReyesH/ScientificWiki
+        text: "GitHub Project"
+      - href: about.qmd
 
 bibliography: bib/references.bib
 csl: bib/journal-of-cosmology-and-astroparticle-physics.csl
