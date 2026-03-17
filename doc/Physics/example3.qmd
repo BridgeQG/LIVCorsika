@@ -33,5 +33,5 @@ The model does not predict the values of these cosmic densities, so they should 
 
 ## List of Authors {id="authors" .appendix}
 
-* Albert Einstein
-* Isaac Newton
+- Albert Einstein
+- Isaac Newton
