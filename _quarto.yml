@@ -1,21 +1,19 @@
 website:
-  title: "Scientific Wiki Template"
+  title: "LIVCorsika"
   search: true
-  sidebar:
-    style: "docked"
+  navbar:
+    background: primary
     logo: "img/logo/logo.png"
-    contents:
-      - href: index.qmd
-        text: "Home"
-      - section: "Topics"
-        contents:
-        - section: "Examples"
-          contents:
-          - auto: "doc/Examples/*.qmd"
-        - section: "Physics"
-          contents:
-          - auto: "doc/Physics/*.qmd"
-      - href: https://github.com/MKReyesH/ScientificWiki
+    left:
+      - text: "Home"
+        href: index.qmd
+      - text: "Examples"
+        menu:
+        - text: "Writting QMarkdown"
+          href: "doc/Examples/example1.qmd"
+        - text: "Writting LaTeX"
+          href: "doc/Examples/example2.qmd"
+      - href: https://github.com/BridgeQG/LIVCorsika
         text: "GitHub Project"
       - href: about.qmd
 

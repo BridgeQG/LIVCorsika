@@ -1,10 +1,11 @@
 ---
-title: 'About this Wiki'
+title: 'About'
 ---
 
-# About us
+# About
 
-- [![MKReyesH](https://github.com/MKReyesH.png?size=40){.rounded-circle}](https://github.com/MKReyesH) &nbsp;&nbsp; [MKReyesH](https://github.com/MKReyesH)
+- [![cattrima](https://github.com/cattrima.png?size=40){.rounded-circle width=40px height=40px}](https://github.com/cattrima) &nbsp;&nbsp; [cattrima](https://github.com/cattrima)
+- [![MKReyesH](https://github.com/MKReyesH.png?size=40){.rounded-circle width=40px height=40px}](https://github.com/MKReyesH) &nbsp;&nbsp; [MKReyesH](https://github.com/MKReyesH)
 
 # Powered By
 
@@ -14,7 +15,3 @@ title: 'About this Wiki'
 - [Bootstrap](https://getbootstrap.com/) and [Bootswatch](https://bootswatch.com/): CSS support and user interface.
 - [MathJax](https://www.mathjax.org/): Mathematical notation rendering.
 - [Gemini](https://gemini.google.com/app): Help writing the Lua filters.
-
-# Contributing
-
-If you would like to contribute to the core template, add new LaTeX translation rules, or fix a bug, do not hesitate to open a Pull Request at the [GitHub Repository](https://github.com/MKReyesH/ScientificWiki).
