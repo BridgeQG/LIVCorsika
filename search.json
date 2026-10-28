@@ -1,5 +1,12 @@
 [
   {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About\n\n    cattrima\n    MKReyesH\n\n\n\nPowered By\n\nGitHub Pages: Hosting and deployment infrastructure.\nQuarto: Markdown rendering, cross-referencing, and website generation.\nPandoc: Document format translation.\nBootstrap and Bootswatch: CSS support and user interface.\nMathJax: Mathematical notation rendering.\nGemini: Help writing the Lua filters."
+  },
+  {
     "objectID": "doc/Examples/example2.html",
     "href": "doc/Examples/example2.html",
     "title": "Allowed LaTeX syntax for page writing",
@@ -40,13 +47,6 @@
     "title": "LIVCorsika",
     "section": "",
     "text": "Every time you commit changes to your repository, GitHub Actions will automatically take care of the deployment phase. The updated webpage will be built and pushed to the gh-pages branch, going live online in just a few minutes."
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "About\n\n    cattrima\n    MKReyesH\n\n\n\nPowered By\n\nGitHub Pages: Hosting and deployment infrastructure.\nQuarto: Markdown rendering, cross-referencing, and website generation.\nPandoc: Document format translation.\nBootstrap and Bootswatch: CSS support and user interface.\nMathJax: Mathematical notation rendering.\nGemini: Help writing the Lua filters."
   },
   {
     "objectID": "doc/Examples/example1.html",
