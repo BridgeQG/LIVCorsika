@@ -1,10 +1,10 @@
 [
   {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
+    "objectID": "doc/info.html",
+    "href": "doc/info.html",
+    "title": "LIVCorsika",
     "section": "",
-    "text": "About\n\n    cattrima\n    MKReyesH\n\n\n\nPowered By\n\nGitHub Pages: Hosting and deployment infrastructure.\nQuarto: Markdown rendering, cross-referencing, and website generation.\nPandoc: Document format translation.\nBootstrap and Bootswatch: CSS support and user interface.\nMathJax: Mathematical notation rendering.\nGemini: Help writing the Lua filters."
+    "text": "paper: https://journals.aps.org/prd/abstract/10.1103/PhysRevD.89.123011\nPROPOSAL: check all the references in the corsika8 paper (at least 5 references)"
   },
   {
     "objectID": "doc/Examples/example1.html",
@@ -26,6 +26,13 @@
     "title": "How to write a page using Quarto Markdown",
     "section": "Footnotes",
     "text": "Footnotes\n\n\nFor example, this is a footnote.↩︎"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About\n\n    cattrima\n    MKReyesH\n\n\n\nPowered By\n\nGitHub Pages: Hosting and deployment infrastructure.\nQuarto: Markdown rendering, cross-referencing, and website generation.\nPandoc: Document format translation.\nBootstrap and Bootswatch: CSS support and user interface.\nMathJax: Mathematical notation rendering.\nGemini: Help writing the Lua filters."
   },
   {
     "objectID": "index.html",
@@ -68,12 +75,5 @@
     "title": "Allowed LaTeX syntax for page writing",
     "section": "This is a subsection",
     "text": "This is a subsection\n\nThis is a sub-subsection\nBecause the script converts this directly into native Markdown, the system automatically generates a reference identifier for it based on the heading’s name (lowercase, using hyphens instead of spaces). This allows you to easily link back to the translated section using standard Markdown linking, such as typing [this section](#sections-and-subsections) to navigate back to this section."
-  },
-  {
-    "objectID": "doc/info.html",
-    "href": "doc/info.html",
-    "title": "LIVCorsika",
-    "section": "",
-    "text": "paper: https://journals.aps.org/prd/abstract/10.1103/PhysRevD.89.123011\nPROPOSAL: check all the references in the corsika8 paper (at least 5 references)"
   }
 ]
