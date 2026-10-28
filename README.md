@@ -10,6 +10,10 @@
 - **CORSIKA 8 GitLab repository:** [https://gitlab.iap.kit.edu/AirShowerPhysics/corsika](https://gitlab.iap.kit.edu/AirShowerPhysics/corsika)
 - Please follow the instructions provided in the repository to install and run standard shower simulations.
 
+
+To start your implementation please create a branch from dev_1.1 and LIV!
+
+
 ## Shared Documentation and Slides
 
 Shared materials are available in the following Google Drive folder:
