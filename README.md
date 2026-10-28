@@ -15,7 +15,7 @@
 Shared materials are available in the following Google Drive folder:
 
 - **[LIVCorsika Shared Materials](https://drive.google.com/drive/u/1/folders/1loBcT0tWCE-CdBQr-jUOes_Aon-CWOmt)**
-
+See md file inside folder "doc/info". 
 The folder contains:
 - Slides presenting the different models.
 - Useful reference documents and scientific papers, including the CORSIKA paper.
@@ -32,7 +32,7 @@ Please use this folder to access and share relevant presentations, documentation
 - Access is restricted to the members listed below.
 - **Invitation link:** [Join CORSIKA 8 Element Matrix](https://app.element.io/#/room/#mh7x43sm-o8dk.swi7GmnAS7cgsk9wncSjze:kit.edu)
 
-### Members
+### Members (to be updated)
 
 | # | Email | GitLab Username |
 |---|---|---|
@@ -43,6 +43,6 @@ Please use this folder to access and share relevant presentations, documentation
 | 18* | caterina.trimarelli@gssi.it (C8) | |
 | 19* | rodrigo.sasse1@uel.br (C8) | |
 
-## Weekly Meeting
+## Corsika Weekly Meeting
 
 - The weekly meeting takes place **every Thursday at 17:00 (5:00 PM)**.
