@@ -27,11 +27,10 @@ Please use this folder to access and share relevant presentations, documentation
 
 - **Email:** livcorsika@lists.infn.it
 
-## Mattermost (CORSIKA 8)
+## Element (CORSIKA 8)
 
 - Access is restricted to the members listed below.
-- Registration is available via **Helmholtz ID**.
-- **Invitation link:** [Join CORSIKA 8 Mattermost](https://mattermost.hzdr.de/signup_user_complete/?id=xtdd8jyt6trbiezt71gaz3z4ge&md=link&sbr=su)
+- **Invitation link:** [Join CORSIKA 8 Element Matrix](https://app.element.io/#/room/#mh7x43sm-o8dk.swi7GmnAS7cgsk9wncSjze:kit.edu)
 
 ### Members
 
