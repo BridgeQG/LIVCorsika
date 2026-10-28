@@ -2,18 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://BridgeQG.github.io/LIVCorsika/about.html</loc>
-    <lastmod>2026-10-28T13:34:12.392Z</lastmod>
-  </url>
-  <url>
-    <loc>https://BridgeQG.github.io/LIVCorsika/doc/Examples/example2.html</loc>
-    <lastmod>2026-10-28T13:34:12.393Z</lastmod>
-  </url>
-  <url>
-    <loc>https://BridgeQG.github.io/LIVCorsika/index.html</loc>
-    <lastmod>2026-10-28T13:34:12.396Z</lastmod>
+    <lastmod>2026-10-28T13:50:52.773Z</lastmod>
   </url>
   <url>
     <loc>https://BridgeQG.github.io/LIVCorsika/doc/Examples/example1.html</loc>
-    <lastmod>2026-10-28T13:34:12.393Z</lastmod>
+    <lastmod>2026-10-28T13:50:52.774Z</lastmod>
+  </url>
+  <url>
+    <loc>https://BridgeQG.github.io/LIVCorsika/index.html</loc>
+    <lastmod>2026-10-28T13:50:52.777Z</lastmod>
+  </url>
+  <url>
+    <loc>https://BridgeQG.github.io/LIVCorsika/doc/Examples/example2.html</loc>
+    <lastmod>2026-10-28T13:50:52.774Z</lastmod>
+  </url>
+  <url>
+    <loc>https://BridgeQG.github.io/LIVCorsika/doc/info.html</loc>
+    <lastmod>2026-10-28T13:50:52.774Z</lastmod>
   </url>
 </urlset>
